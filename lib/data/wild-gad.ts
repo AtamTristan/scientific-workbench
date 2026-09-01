@@ -1,5 +1,3 @@
-import type { ScientificVisualizationArtifact } from "@/lib/scientific-artifacts/schema";
-
 export type ModelKey = "mbert" | "scibert" | "roberta" | "sbert-minilm" | "sbert-specter" | "e5-small";
 export type DatasetKey = "cora" | "pubmed" | "amazon_computers" | "reddit2_s50000" | "webkb" | "wikics" | "yelp_s50000";
 
@@ -40,13 +38,3 @@ export const top1: Record<DatasetKey, Record<ModelKey, DatasetKey>> = {
 };
 
 export const samplingStability = { budgetA: 3000, budgetB: 4000, top1StableFraction: .86, configurations: 42 } as const;
-
-export const wildGadArtifact: ScientificVisualizationArtifact = {
-  schemaVersion: "1.0", id: "wild-gad-embedding-space-v1", type: "embedding-space",
-  title: "WILD-GAD Embedding Space Analysis",
-  description: "PCA projections of six language-model embedding spaces across seven graph datasets.",
-  source: { projectId: "wild-gad", experimentId: "embedding-space-analysis", runId: "legacy-seminar-matrix" },
-  data: { projectionIndex: "/data/projections/index.json", projectionBase: "/data/projections" },
-  visualization: { renderer: "embedding-space", dimensions: 3, defaults: { model: "scibert", maxPoints: 10500 } },
-  provenance: { createdAt: "2026-08-31T00:00:00Z", generatedBy: "migrated Research Gym export", claimStatus: "exploratory" },
-};

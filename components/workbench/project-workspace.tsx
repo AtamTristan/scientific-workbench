@@ -2,13 +2,14 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import {
   Braces, Check, Code2, Database, Download, ExternalLink, FileJson,
   FlaskConical, Images, NotebookTabs, Play, Table2, Workflow,
 } from "lucide-react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Button } from "@/components/ui/button";
-import { wildGadArtifact } from "@/lib/data/wild-gad";
+import { wildGadExampleArtifact as wildGadArtifact } from "@/examples/artifacts/wild-gad";
 import { publishArtifact, type PublicationResult } from "@/lib/publication-api";
 
 const runs = [
@@ -63,7 +64,7 @@ export function ProjectWorkspace() {
 
   return <div className="workspace">
     <aside className="work-nav">
-      <div className="work-brand"><FlaskConical/><span>Scientific<br/><b>Workbench</b></span></div>
+      <div className="work-brand"><Image className="work-brand-logo" src="/scientific-platform-mark-64.png" width={36} height={36} alt=""/><span>Scientific<br/><b>Workbench</b></span></div>
       <nav>{navigationItems.map(({icon:Icon,label})=><button key={label} className={label==="Overview"?"active":""}><Icon size={16}/>{label}</button>)}</nav>
       <div className="future-tools"><span>SCIENTIFIC PROGRAMMING</span>{futureTools.map(({icon:Icon,label})=><div key={label}><Icon size={15}/>{label}<small>Later</small></div>)}</div>
       <Link href={visualizerUrl}>← Science Visualizer</Link>
