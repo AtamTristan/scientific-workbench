@@ -25,7 +25,7 @@ const artifactFields = {
     defaults: z.record(z.string(), z.unknown()).optional(),
   }),
   provenance: z.object({
-    createdAt: z.string(),
+    createdAt: z.string().datetime({ offset: true }),
     generatedBy: z.string(),
     claimStatus: z.enum(["demo", "exploratory", "controlled", "robust"]),
   }),
