@@ -18,13 +18,16 @@ FROM node:22-alpine AS runtime
 WORKDIR /app
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV SCIENTIFIC_WORKBENCH_DATA_DIR=/data
 ENV HOSTNAME=0.0.0.0
 ENV PORT=3000
 RUN apk add --no-cache tini
+RUN mkdir -p /data && chown node:node /data
 COPY --from=build --chown=node:node /app/.next/standalone ./
 COPY --from=build --chown=node:node /app/.next/static ./.next/static
 COPY --from=build --chown=node:node /app/public ./public
 USER node
+VOLUME ["/data"]
 EXPOSE 3000
 ENTRYPOINT ["/sbin/tini", "--"]
 CMD ["node", "server.js"]

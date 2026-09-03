@@ -1,0 +1,17 @@
+{
+  "schemaVersion": "1.0",
+  "id": "intent-ba-cora-rho-010",
+  "projectId": "ba-hypergraph-augmentations",
+  "researchActionId": "RA-12",
+  "protocolId": "P4",
+  "hypothesisIds": ["H1"],
+  "objective": "Compare A0, A1 and A2 on Cora at rho=0.10.",
+  "constraints": {
+    "dataset": ["Cora"],
+    "strategy": ["A0", "A1", "A2"],
+    "rho": [0.1],
+    "seed": [0, 1, 2, 3, 4]
+  },
+  "repositoryRef": { "branch": "main" },
+  "createdAt": "2026-09-03T00:00:00Z"
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scientific.local/contracts/run-manifest.schema.json",
+  "title": "Scientific Repository RunManifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "missionId", "pipelineId", "sweepId", "projectId", "status", "configuration", "metrics", "artifacts"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "missionId": { "type": "string", "minLength": 1 },
+    "pipelineId": { "type": "string", "minLength": 1 },
+    "sweepId": { "type": "string", "minLength": 1 },
+    "projectId": { "type": "string", "minLength": 1 },
+    "status": { "enum": ["planned", "running", "completed", "failed", "cancelled"] },
+    "configuration": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } },
+    "seed": { "type": "integer" },
+    "gitCommit": { "type": "string", "pattern": "^[a-f0-9]{7,40}$" },
+    "configRef": { "type": "string" },
+    "environment": { "type": "string" },
+    "startedAt": { "type": "string", "format": "date-time" },
+    "completedAt": { "type": "string", "format": "date-time" },
+    "metrics": { "type": "object", "additionalProperties": { "type": "number" } },
+    "artifacts": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "role", "uri", "mediaType"],
+        "properties": {
+          "id": { "type": "string" }, "role": { "type": "string" }, "uri": { "type": "string" },
+          "mediaType": { "type": "string" }, "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+        }
+      }
+    },
+    "logRef": { "type": "string" }
+  }
+}

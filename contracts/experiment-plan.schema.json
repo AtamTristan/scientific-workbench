@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scientific.local/contracts/experiment-plan.schema.json",
+  "title": "Scientific Workbench ExperimentPlan",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "id", "adapter", "projectId", "missionId", "runId", "pipelineId", "sweepId", "configuration", "expected", "invocation", "generatedAt"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "id": { "type": "string", "minLength": 1 },
+    "adapter": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version", "source"],
+      "properties": { "id": { "type": "string" }, "version": { "const": "1.0" }, "source": { "enum": ["ecosystem-contract", "inspected-legacy-code"] } }
+    },
+    "projectId": { "type": "string" },
+    "missionId": { "type": "string" },
+    "runId": { "type": "string" },
+    "pipelineId": { "type": "string" },
+    "sweepId": { "type": "string" },
+    "configuration": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } },
+    "expected": { "type": "object", "required": ["outputPatterns", "runManifestVersion"], "properties": { "outputPatterns": { "type": "array", "items": { "type": "string" } }, "runManifestVersion": { "const": "1.0" } } },
+    "invocation": { "type": "object", "required": ["cwd", "validate", "command", "environment"], "properties": { "cwd": { "type": "string" }, "validate": { "type": "array", "items": { "type": "string" } }, "command": { "type": "array", "items": { "type": "string" } }, "environment": { "type": "object" } } },
+    "generatedAt": { "type": "string", "format": "date-time" }
+  }
+}

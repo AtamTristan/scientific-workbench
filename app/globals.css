@@ -2,6 +2,8 @@
 @import "tw-animate-css";
 @import "../vendor/shadcn-tailwind-4.13.0.css";
 @import "./workbench.css";
+@import "./pipeline.css";
+@import "./mission-select.css";
 
 :root { --ink:#eaf2f7; --muted:#91a4b1; --bg:#070e13; --panel:#09151c; --line:#1b2d38; --cyan:#7dd3fc; --violet:#a78bfa; --green:#34d399; color-scheme:dark; }
 * { box-sizing:border-box; }

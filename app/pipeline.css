@@ -1,0 +1,30 @@
+.pipeline-canvas {
+  display: block;
+  padding: 1rem;
+  overflow-x: auto;
+  min-height: 322px;
+}
+
+.pipeline-stage {
+  position: relative;
+  width: 1160px;
+  height: 290px;
+}
+
+.pipeline-lines {
+  position: absolute;
+  inset: 0;
+  width: 1160px;
+  height: 290px;
+  overflow: visible;
+}
+
+.pipeline-lines line {
+  stroke: #376b7c;
+  stroke-width: 1.5;
+  opacity: .8;
+}
+
+.pipeline-lines marker path { fill: #4c8293; }
+
+.pipeline-node { position: absolute; }

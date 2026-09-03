@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://scientific.local/contracts/execution-result/1.0",
+  "title": "ExecutionResult",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schemaVersion", "missionId", "projectId", "researchActionId", "protocolId", "pipeline", "sweep", "generatedAt", "runs"],
+  "properties": {
+    "schemaVersion": { "const": "1.0" },
+    "missionId": { "$ref": "#/$defs/id" },
+    "projectId": { "$ref": "#/$defs/id" },
+    "researchActionId": { "$ref": "#/$defs/id" },
+    "protocolId": { "$ref": "#/$defs/id" },
+    "pipeline": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "version"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "version": { "type": "string", "minLength": 1 } }
+    },
+    "sweep": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "status"],
+      "properties": { "id": { "$ref": "#/$defs/id" }, "status": { "enum": ["draft", "materialized", "running", "completed"] } }
+    },
+    "generatedAt": { "type": "string", "format": "date-time" },
+    "runs": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["runId", "status", "configuration", "artifacts", "metrics", "integrity"],
+        "properties": {
+          "runId": { "$ref": "#/$defs/id" },
+          "status": { "enum": ["planned", "running", "completed", "failed", "cancelled"] },
+          "configuration": { "type": "object", "additionalProperties": { "type": ["string", "number", "boolean"] } },
+          "gitCommit": { "type": "string", "pattern": "^[a-f0-9]{7,40}$" },
+          "configRef": { "type": "string" },
+          "artifacts": { "type": "array", "items": { "$ref": "#/$defs/artifact" } },
+          "metrics": { "type": "object", "additionalProperties": { "type": "number" } },
+          "integrity": { "type": "integer", "minimum": 0, "maximum": 100 }
+        }
+      }
+    }
+  },
+  "$defs": {
+    "id": { "type": "string", "minLength": 1 },
+    "artifact": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "role", "uri", "mediaType"],
+      "properties": {
+        "id": { "$ref": "#/$defs/id" },
+        "role": { "type": "string", "minLength": 1 },
+        "uri": { "type": "string", "minLength": 1 },
+        "mediaType": { "type": "string", "minLength": 1 },
+        "sha256": { "type": "string", "pattern": "^[a-f0-9]{64}$" }
+      }
+    }
+  }
+}
