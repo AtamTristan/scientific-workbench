@@ -1,6 +1,6 @@
 # Scientific Workbench
 
-Scientific Workbench is the private-oriented execution control plane of the Scientific Ecosystem. Version 0.3 adds trusted scientific-repository adapters to the persistent, contract-driven execution core.
+Scientific Workbench is the private-oriented execution control plane of the Scientific Ecosystem. Version 0.4 adds research-program-aware bindings and an executable Pre-BA instrument-validation path.
 
 It owns executable experiment state. It does **not** own hypotheses, Findings, Evidence Roles, source code or raw computational artifacts.
 
@@ -13,7 +13,7 @@ npm run dev
 
 Open <http://127.0.0.1:5174>. The first start creates an ignored local state file at `.data/workbench-state.json`. Set `SCIENTIFIC_WORKBENCH_DATA_DIR` to move that state; the production container uses `/data`.
 
-## v0.3 capabilities
+## v0.4 capabilities
 
 - versioned `ExperimentIntent`, Mission, Component, Pipeline, Sweep and Run schemas;
 - portable JSON Schemas for both Meta-Lab handoff directions in `contracts/`;
@@ -28,11 +28,12 @@ Open <http://127.0.0.1:5174>. The first start creates an ignored local state fil
 - Command and Professional projections of the same state.
 - repository preflight against required adapter files;
 - deterministic `ExperimentPlan 1.0` generation without arbitrary shell input;
-- a BA Python adapter based on the existing ecosystem repository contract;
+- a Conda-based BA Python adapter with a deterministic toy-fixture vertical slice;
+- research-program-aware project paths without coupling project Git histories;
 - a WILD-GAD Multi-LLM adapter mapped to the inspected historical scripts;
 - a second typed pipeline and an 84-run WILD-GAD reproduction matrix.
 
-The adapters generate exact commands and plans, but execution remains an explicit terminal action. The BA adapter blocks until the repository satisfies `.scientific/repository.json`. The WILD-GAD mapping is marked as a historical reconstruction until a fresh run has been completed.
+The adapters generate exact commands and plans, but execution remains an explicit terminal action. BA and WILD-GAD live as independent Git projects below `research-programs/semantic-information-systems/projects/`. The first BA matrix validates the instrument only; it is not thesis evidence. The WILD-GAD mapping remains a historical reconstruction until a fresh run has been completed.
 
 ## API
 

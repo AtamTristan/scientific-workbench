@@ -23,26 +23,26 @@ async function persist(state: WorkbenchState) {
 export async function readWorkbenchState(): Promise<WorkbenchState> {
   try {
     const state = workbenchStateSchema.parse(JSON.parse(await readFile(statePath, "utf8")));
-    const adapterRuntimePresent = state.projects.every((project) => project.adapterId)
+    const preBaRuntimePresent = state.projects.every((project) => project.adapterId)
+      && state.projects.some((project) => project.id === "bachelor-hypergraph-augmentations" && project.programId === "semantic-information-systems")
+      && state.pipelines.some((pipeline) => pipeline.id === "pipeline-ba-pre-ba-a0")
       && state.pipelines.some((pipeline) => pipeline.id === "pipeline-wild-gad-multi-llm");
-    if (adapterRuntimePresent) return state;
+    if (preBaRuntimePresent) return state;
     const reference = referenceWorkbenchState();
-    const mergeById = <T extends { id: string }>(current: T[], defaults: T[]) => [
-      ...current,
-      ...defaults.filter((candidate) => !current.some((item) => item.id === candidate.id)),
+    const legacyIds = new Set(["intent-ba-reference", "mission-ba-reference", "pipeline-ba-structure-performance", "sweep-ba-reference"]);
+    const mergeReference = <T extends { id: string }>(current: T[], defaults: T[]) => [
+      ...defaults,
+      ...current.filter((item) => !defaults.some((candidate) => candidate.id === item.id) && !legacyIds.has(item.id)),
     ];
     return persist({
       ...state,
-      projects: [
-        ...reference.projects.map((project) => ({ ...state.projects.find((candidate) => candidate.id === project.id), ...project })),
-        ...state.projects.filter((project) => !reference.projects.some((candidate) => candidate.id === project.id)),
-      ],
-      intents: mergeById(state.intents, reference.intents),
-      missions: mergeById(state.missions, reference.missions),
-      components: mergeById(state.components, reference.components),
-      pipelines: mergeById(state.pipelines, reference.pipelines),
-      sweeps: mergeById(state.sweeps, reference.sweeps),
-      runs: mergeById(state.runs, reference.runs),
+      projects: mergeReference(state.projects, reference.projects),
+      intents: mergeReference(state.intents, reference.intents),
+      missions: mergeReference(state.missions, reference.missions),
+      components: mergeReference(state.components, reference.components),
+      pipelines: mergeReference(state.pipelines, reference.pipelines),
+      sweeps: mergeReference(state.sweeps, reference.sweeps),
+      runs: mergeReference(state.runs.filter((run) => run.sweepId !== "sweep-ba-reference"), reference.runs),
     });
   } catch (error) {
     const missing = error && typeof error === "object" && "code" in error && error.code === "ENOENT";

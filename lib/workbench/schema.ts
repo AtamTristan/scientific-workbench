@@ -50,7 +50,7 @@ export const projectBindingSchema = z.object({
   id: z.string().min(1), name: z.string().min(1), repositoryPath: z.string().min(1),
   repositoryUrl: z.string().url().optional(), defaultBranch: z.string().min(1),
   adapter: z.enum(["fixture", "python-cli", "external"]),
-  adapterId: z.string().min(1).optional(), profileId: z.string().min(1).optional(),
+  adapterId: z.string().min(1).optional(), programId: z.string().min(1).optional(), profileId: z.string().min(1).optional(),
   status: z.enum(["ready", "adapter-required", "unavailable"]), capabilities: z.array(z.string()),
 });
 
