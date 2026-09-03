@@ -1,4 +1,5 @@
-import { mkdir, readFile, rename, writeFile } from "node:fs/promises";
+import { randomUUID } from "node:crypto";
+import { mkdir, readFile, rename, rm, writeFile } from "node:fs/promises";
 import path from "node:path";
 import { executionResult, materializeSweep, missionFromIntent, runIntegrity, scanAnomalies, sweepCombinations, validatePipeline } from "./engine";
 import { referenceWorkbenchState } from "./reference-state";
@@ -14,9 +15,14 @@ let mutationQueue: Promise<unknown> = Promise.resolve();
 async function persist(state: WorkbenchState) {
   await mkdir(dataDirectory, { recursive: true });
   const next = workbenchStateSchema.parse({ ...state, updatedAt: new Date().toISOString() });
-  const temporary = `${statePath}.tmp`;
-  await writeFile(temporary, `${JSON.stringify(next, null, 2)}\n`, "utf8");
-  await rename(temporary, statePath);
+  const temporary = `${statePath}.${process.pid}.${randomUUID()}.tmp`;
+  try {
+    await writeFile(temporary, `${JSON.stringify(next, null, 2)}\n`, "utf8");
+    await rename(temporary, statePath);
+  } catch (error) {
+    await rm(temporary, { force: true });
+    throw error;
+  }
   return next;
 }
 
